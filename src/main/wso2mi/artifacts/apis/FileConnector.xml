@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/fileconnector" name="FileConnector" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/create">
+        <inSequence>
+        <file.write configKey="LocalFileConnection">
+    <filePath >{${payload.filePath}}</filePath>
+    <contentOrExpression >{${payload.inputContent}}</contentOrExpression>
+    <encoding >UTF-8</encoding>
+    <mimeType >Automatic</mimeType>
+    <compress >false</compress>
+    <writeMode >Overwrite</writeMode>
+    <enableStreaming >false</enableStreaming>
+    <appendNewLine >false</appendNewLine>
+    <enableLock >false</enableLock>
+    <includeResultTo >Message Body</includeResultTo>
+    <updateLastModified >true</updateLastModified>
+    <maxRetries >0</maxRetries>
+    <retryDelay >0</retryDelay>
+    <diskShareAccessMask >MAXIMUM_ALLOWED</diskShareAccessMask>
+            </file.write>
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+        <resource methods="POST" uri-template="/read">
+        <inSequence>
+            <property name="path" expression="json-eval($.filePath)"/>
+            <file.checkExist configKey="LocalFileConnection">
+                <path>{$ctx:path}</path>
+                <includeResultTo>Message Body</includeResultTo>
+                <diskShareAccessMask>MAXIMUM_ALLOWED</diskShareAccessMask>
+            </file.checkExist>
+
+            <switch source="json-eval($.checkExistResult.fileExists)">
+                <case regex="true">
+                    <file.read configKey="LocalFileConnection">
+                        <path>{$ctx:path}</path>
+                        <filePattern></filePattern>
+                        <readMode>Complete File</readMode>
+                        <contentType></contentType>
+                        <encoding>UTF-8</encoding>
+                        <includeResultTo>Message Body</includeResultTo>
+                        <enableStreaming>false</enableStreaming>
+                        <enableLock>false</enableLock>
+                        <maxRetries>0</maxRetries>
+                        <retryDelay>0</retryDelay>
+                        <diskShareAccessMask>MAXIMUM_ALLOWED</diskShareAccessMask>
+                    </file.read>
+
+                <respond/>
+                </case>
+            <default>
+                <log category="INFO" level="simple">
+                    <property name="Status" value="File does not exist"/>
+                    </log>
+                <drop/>
+                </default>
+            </switch>
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+
+</api>
