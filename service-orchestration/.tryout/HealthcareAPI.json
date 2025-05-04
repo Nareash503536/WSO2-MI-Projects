@@ -1,0 +1,55 @@
+{
+  "type": "API",
+  "/categories/{category}/reserve\t": {
+    "requests": [
+      {
+        "name": "initial payload",
+        "contentType": "application/json",
+        "content": {
+          "patient": {
+            "name": "John Doe",
+            "dob": "1940-03-19",
+            "ssn": "234-23-525",
+            "address": "California",
+            "phone": "8770586755",
+            "email": "johndoe@gmail.com"
+          },
+          "doctor": "thomas collins",
+          "hospital_id": "grandoaks",
+          "hospital": "grand oak community hospital",
+          "cardNo": "7844481124110331",
+          "appointment_date": "2025-04-02"
+        },
+        "queryParams": {},
+        "pathParams": {}
+      }
+    ],
+    "defaultRequest": "initial payload"
+  },
+  "/categories/{category}/reserve": {
+    "requests": [
+      {
+        "name": "initial payload",
+        "contentType": "application/json",
+        "content": {
+          "patient": {
+            "name": "John Doe",
+            "dob": "1940-03-19",
+            "ssn": "234-23-525",
+            "address": "California",
+            "phone": "8770586755",
+            "email": "johndoe@gmail.com"
+          },
+          "doctor": "thomas collins",
+          "hospital_id": "grandoaks",
+          "hospital": "grand oak community hospital",
+          "cardNo": "7844481124110331",
+          "appointment_date": "2025-04-02"
+        },
+        "queryParams": {},
+        "pathParams": {}
+      }
+    ],
+    "defaultRequest": "initial payload"
+  }
+}
