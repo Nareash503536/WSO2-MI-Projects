@@ -1,0 +1,10 @@
+---
+key: "FileConnector-1.0.0"
+name : "FileConnector"
+displayName : "FileConnector"
+description: "FileConnector"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/fileconnector"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false
