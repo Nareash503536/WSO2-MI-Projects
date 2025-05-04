@@ -1,0 +1,28 @@
+<data name="RDBMSConn" serviceNamespace="" serviceGroup="" transports="http https" disableStreaming="true">
+    <description/>
+    <config id="MYSQLserver">
+        <property name="driverClassName">com.mysql.jdbc.Driver</property>
+        <property name="url">jdbc:mysql://localhost:3306/Company</property>
+        <property name="username">root</property>
+        <property name="password">root</property>
+    </config>
+    <query id="get_employeeemployeenumber_query" useConfig="MYSQLserver">
+        <sql>SELECT EmployeeNumber, FirstName, LastName, Email FROM Employees WHERE EmployeeNumber=:employee_number</sql>
+        <param name="employee_number" paramType="SCALAR" sqlType="STRING" type="IN"/>
+        <result outputType="json">
+            {
+            "Employee":{
+            "EmployeeNumber":"$EmployeeNumber",
+            "FirstName":"$FirstName",
+            "LastName":"$LastName",
+            "Email":"$Email"
+            }
+            }
+        </result>
+    </query>
+    <resource method="GET" path="Employee/{EmployeeNumber}" disableStreaming="true">
+        <call-query href="get_employeeemployeenumber_query">
+            <with-param name="employee_number" query-param="EmployeeNumber"/>
+        </call-query>
+    </resource>
+</data>
