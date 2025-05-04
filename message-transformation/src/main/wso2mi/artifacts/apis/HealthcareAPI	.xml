@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api name="HealthcareAPI" port="8290" context="/healthcareapi" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/categories/{category}/reserve">
+        <inSequence>
+            <log category="INFO" logMessageID="false" logFullPayload="false">
+                <message>Processing</message>
+            </log>
+            <datamapper config="resources:datamapper/DataMapper/DataMapper.dmc" inputSchema="resources:datamapper/DataMapper/DataMapper_inputSchema.json" outputSchema="resources:datamapper/DataMapper/DataMapper_outputSchema.json"/>
+            <log category="ERROR" logMessageID="false" logFullPayload="false">
+                <message>${payload.hospital_id}&lt;br&gt;</message>
+            </log>
+            <http.post configKey="HospitalConnection">
+                <relativePath>/${payload.hospital_id}/categories/${params.pathParams.category}/reserve</relativePath>
+                <headers>[]</headers>
+                <requestBodyType>JSON</requestBodyType>
+                <requestBodyJson>${payload}</requestBodyJson>
+                <forceScAccepted>false</forceScAccepted>
+                <disableChunking>false</disableChunking>
+                <forceHttp10>false</forceHttp10>
+                <noKeepAlive>false</noKeepAlive>
+                <forcePostPutNobody>false</forcePostPutNobody>
+                <responseVariable>http_post_1</responseVariable>
+                <overwriteBody>true</overwriteBody>
+            </http.post>
+        <respond />
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+</api>
